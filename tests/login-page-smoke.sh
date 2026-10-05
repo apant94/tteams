@@ -7,7 +7,8 @@ test -f public/assets/styles.css
 test -f public/assets/logo.svg
 test -f templates/auth/login.php
 
-grep -q "templates/auth/login.php" public/index.php
+grep -q "bootstrap/app.php" public/index.php
+grep -q "auth/login.php" src/Auth/AuthController.php
 grep -q 'lang="ru"' templates/auth/login.php
 grep -q 'type="password"' templates/auth/login.php
 grep -q 'autocomplete="current-password"' templates/auth/login.php
