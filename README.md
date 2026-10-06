@@ -141,6 +141,14 @@ php -S localhost:8000 -t public
 
 После запуска страница доступна по адресу `http://localhost:8000`.
 
+Создание локальной SQLite-базы:
+
+```bash
+php bin/database-create.php
+```
+
+Файл базы создаётся в `storage/app.sqlite` и не добавляется в Git.
+
 Проверка текущего прототипа:
 
 ```bash

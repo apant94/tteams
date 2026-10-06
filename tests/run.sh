@@ -7,6 +7,7 @@ find public src bootstrap config templates tests -name '*.php' -print0 \
 
 bash tests/login-page-smoke.sh
 php -d zend.assertions=1 -d assert.exception=1 tests/router-test.php
+php -d zend.assertions=1 -d assert.exception=1 tests/database-test.php
 
 rendered_page="$({ REQUEST_METHOD=GET REQUEST_URI=/ php public/index.php; })"
 
