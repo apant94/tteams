@@ -11,6 +11,11 @@ php -d zend.assertions=1 -d assert.exception=1 tests/database-test.php
 php -d zend.assertions=1 -d assert.exception=1 tests/migrator-test.php
 php -d zend.assertions=1 -d assert.exception=1 tests/auth-service-test.php
 php -d zend.assertions=1 -d assert.exception=1 tests/message-api-test.php
+php -d zend.assertions=1 -d assert.exception=1 tests/chat-controller-test.php
+
+if command -v node >/dev/null 2>&1; then
+  node --check public/assets/chat.js
+fi
 
 rendered_page="$({ REQUEST_METHOD=GET REQUEST_URI=/ php public/index.php; })"
 

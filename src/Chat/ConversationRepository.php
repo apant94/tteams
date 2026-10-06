@@ -55,6 +55,41 @@ final class ConversationRepository
         return array_map($this->map(...), $statement->fetchAll());
     }
 
+    /** @return list<ConversationSummary> */
+    public function findSummariesForAdmin(int $adminId): array
+    {
+        $statement = $this->connection->prepare(
+            'SELECT
+                conversations.id,
+                conversations.client_id,
+                users.name AS client_name,
+                conversations.updated_at,
+                (
+                    SELECT messages.body
+                    FROM messages
+                    WHERE messages.conversation_id = conversations.id
+                    ORDER BY messages.id DESC
+                    LIMIT 1
+                ) AS last_message
+             FROM conversations
+             INNER JOIN users ON users.id = conversations.client_id
+             WHERE conversations.admin_id = :admin_id
+             ORDER BY conversations.updated_at DESC, conversations.id DESC',
+        );
+        $statement->execute(['admin_id' => $adminId]);
+
+        return array_map(
+            static fn (array $row): ConversationSummary => new ConversationSummary(
+                (int) $row['id'],
+                (int) $row['client_id'],
+                (string) $row['client_name'],
+                is_string($row['last_message']) ? $row['last_message'] : null,
+                (string) $row['updated_at'],
+            ),
+            $statement->fetchAll(),
+        );
+    }
+
     /** @param array<string, mixed> $row */
     private function map(array $row): Conversation
     {

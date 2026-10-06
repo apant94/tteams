@@ -23,10 +23,10 @@ return static function (
     $users = new UserRepository($connection);
     $auth = new AuthService($users, $session);
     $csrf = new CsrfToken($session);
-    $authController = new AuthController($templates, $auth, $csrf);
-    $chatController = new ChatController($templates, $auth, $csrf);
     $conversations = new ConversationRepository($connection);
     $messages = new MessageRepository($connection);
+    $authController = new AuthController($templates, $auth, $csrf);
+    $chatController = new ChatController($templates, $auth, $csrf, $conversations, $users);
     $messageController = new MessageController($auth, $conversations, $messages, $csrf);
 
     $router->get('/', [$authController, 'showLogin']);
@@ -34,6 +34,7 @@ return static function (
     $router->post('/logout', [$authController, 'logout']);
     $router->get('/chat', [$chatController, 'client']);
     $router->get('/admin/chats', [$chatController, 'admin']);
+    $router->get('/admin/chats/{id}', [$chatController, 'admin']);
     $router->get('/api/conversations/{id}/messages', [$messageController, 'index']);
     $router->post('/api/conversations/{id}/messages', [$messageController, 'store']);
 };

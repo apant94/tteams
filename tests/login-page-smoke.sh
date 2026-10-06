@@ -20,5 +20,9 @@ grep -q 'font-family: "Inter"' public/assets/styles.css
 grep -q '@media (max-width: 600px)' public/assets/styles.css
 test -f templates/client/chat.php
 test -f templates/master/chats.php
+test -f templates/chat/thread.php
+test -f public/assets/chat.js
+grep -q 'data-message-form' templates/chat/thread.php
+grep -q 'setTimeout' public/assets/chat.js
 
 echo "Login page smoke test passed"
