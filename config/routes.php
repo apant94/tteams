@@ -6,6 +6,9 @@ use Team\Auth\AuthController;
 use Team\Auth\AuthService;
 use Team\Auth\UserRepository;
 use Team\Chat\ChatController;
+use Team\Chat\ConversationRepository;
+use Team\Chat\MessageController;
+use Team\Chat\MessageRepository;
 use Team\Shared\Http\Router;
 use Team\Shared\Security\CsrfToken;
 use Team\Shared\Session\Session;
@@ -22,10 +25,15 @@ return static function (
     $csrf = new CsrfToken($session);
     $authController = new AuthController($templates, $auth, $csrf);
     $chatController = new ChatController($templates, $auth, $csrf);
+    $conversations = new ConversationRepository($connection);
+    $messages = new MessageRepository($connection);
+    $messageController = new MessageController($auth, $conversations, $messages, $csrf);
 
     $router->get('/', [$authController, 'showLogin']);
     $router->post('/login', [$authController, 'login']);
     $router->post('/logout', [$authController, 'logout']);
     $router->get('/chat', [$chatController, 'client']);
     $router->get('/admin/chats', [$chatController, 'admin']);
+    $router->get('/api/conversations/{id}/messages', [$messageController, 'index']);
+    $router->post('/api/conversations/{id}/messages', [$messageController, 'store']);
 };

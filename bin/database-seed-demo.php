@@ -50,6 +50,19 @@ foreach ($users as $user) {
     ]);
 }
 
+$conversation = $connection->prepare(
+    'INSERT INTO conversations (admin_id, client_id, created_at, updated_at)
+     VALUES (:admin_id, :client_id, :created_at, :updated_at)
+     ON CONFLICT(client_id) DO UPDATE SET admin_id = excluded.admin_id',
+);
+$conversation->execute([
+    'admin_id' => 1,
+    'client_id' => 2,
+    'created_at' => $now,
+    'updated_at' => $now,
+]);
+
 echo "Demo users created. These credentials are for local development only.\n";
+echo "Demo conversation created.\n";
 echo 'Admin password: ' . $users[0]['password'] . "\n";
 echo 'Client password: ' . $users[1]['password'] . "\n";

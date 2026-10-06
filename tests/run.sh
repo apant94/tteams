@@ -10,6 +10,7 @@ php -d zend.assertions=1 -d assert.exception=1 tests/router-test.php
 php -d zend.assertions=1 -d assert.exception=1 tests/database-test.php
 php -d zend.assertions=1 -d assert.exception=1 tests/migrator-test.php
 php -d zend.assertions=1 -d assert.exception=1 tests/auth-service-test.php
+php -d zend.assertions=1 -d assert.exception=1 tests/message-api-test.php
 
 rendered_page="$({ REQUEST_METHOD=GET REQUEST_URI=/ php public/index.php; })"
 
