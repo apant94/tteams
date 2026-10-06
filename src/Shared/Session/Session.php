@@ -6,6 +6,8 @@ namespace Team\Shared\Session;
 
 final class Session
 {
+    private bool $started = false;
+
     public function __construct(
         private readonly string $name,
     ) {
@@ -14,6 +16,7 @@ final class Session
     public function start(): void
     {
         if (session_status() === PHP_SESSION_ACTIVE) {
+            $this->started = true;
             return;
         }
 
@@ -31,5 +34,53 @@ final class Session
         ]);
 
         session_start();
+        $this->started = true;
+    }
+
+    public function get(string $key, mixed $default = null): mixed
+    {
+        $this->ensureStarted();
+
+        return $_SESSION[$key] ?? $default;
+    }
+
+    public function put(string $key, mixed $value): void
+    {
+        $this->ensureStarted();
+        $_SESSION[$key] = $value;
+    }
+
+    public function regenerate(): void
+    {
+        $this->ensureStarted();
+        session_regenerate_id(true);
+    }
+
+    public function destroy(): void
+    {
+        $this->ensureStarted();
+        $_SESSION = [];
+
+        if (ini_get('session.use_cookies')) {
+            $parameters = session_get_cookie_params();
+            setcookie(session_name(), '', [
+                'expires' => time() - 42000,
+                'path' => $parameters['path'],
+                'domain' => $parameters['domain'],
+                'secure' => $parameters['secure'],
+                'httponly' => $parameters['httponly'],
+                'samesite' => $parameters['samesite'] ?? 'Lax',
+            ]);
+        }
+
+        session_destroy();
+        $this->started = false;
+    }
+
+    private function ensureStarted(): void
+    {
+        if (!$this->started || session_status() !== PHP_SESSION_ACTIVE) {
+            throw new \LogicException('Session has not been started.');
+        }
     }
 }

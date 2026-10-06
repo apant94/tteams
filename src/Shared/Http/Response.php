@@ -31,6 +31,13 @@ final class Response
         ]);
     }
 
+    public static function redirect(string $location, int $status = 302): self
+    {
+        return new self('', $status, [
+            'Location' => $location,
+        ]);
+    }
+
     public function status(): int
     {
         return $this->status;
@@ -39,6 +46,12 @@ final class Response
     public function body(): string
     {
         return $this->body;
+    }
+
+    /** @return array<string, string> */
+    public function headers(): array
+    {
+        return $this->headers;
     }
 
     public function send(): void

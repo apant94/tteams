@@ -1,0 +1,75 @@
+:root {
+    font-family: "Inter", Arial, sans-serif;
+    color: #000000;
+    background: #ffffff;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    min-width: 320px;
+    min-height: 100vh;
+    margin: 0;
+}
+
+button {
+    font: inherit;
+}
+
+.demo-page {
+    min-height: 100vh;
+    padding: clamp(24px, 4vw, 72px);
+}
+
+.demo-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+}
+
+.demo-header img {
+    display: block;
+    width: 154px;
+    height: auto;
+}
+
+.demo-button {
+    padding: 14px 24px;
+    border: 0;
+    border-radius: 14px;
+    color: #ffffff;
+    background: #000000;
+    cursor: pointer;
+}
+
+.demo-card {
+    max-width: 900px;
+    margin-top: clamp(72px, 14vh, 180px);
+    padding: clamp(32px, 5vw, 72px);
+    border-radius: 32px;
+    background: #f1f1f1;
+}
+
+.demo-card__label {
+    margin: 0 0 24px;
+    color: #777777;
+    font-size: 18px;
+}
+
+.demo-card__title {
+    margin: 0;
+    font-size: clamp(48px, 7vw, 88px);
+    line-height: 0.98;
+    letter-spacing: -0.055em;
+}
+
+.demo-card__text {
+    max-width: 680px;
+    margin: 40px 0 0;
+    font-size: clamp(21px, 2.4vw, 30px);
+    line-height: 1.25;
+    letter-spacing: -0.025em;
+}

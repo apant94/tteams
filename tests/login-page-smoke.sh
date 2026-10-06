@@ -12,9 +12,13 @@ grep -q "auth/login.php" src/Auth/AuthController.php
 grep -q 'lang="ru"' templates/auth/login.php
 grep -q 'type="password"' templates/auth/login.php
 grep -q 'autocomplete="current-password"' templates/auth/login.php
+grep -q 'action="/login"' templates/auth/login.php
+grep -q 'name="_csrf"' templates/auth/login.php
 grep -q 'Войдите по паролю' templates/auth/login.php
 grep -q 'Оцифровка' templates/auth/login.php
 grep -q 'font-family: "Inter"' public/assets/styles.css
 grep -q '@media (max-width: 600px)' public/assets/styles.css
+test -f templates/client/chat.php
+test -f templates/master/chats.php
 
 echo "Login page smoke test passed"
